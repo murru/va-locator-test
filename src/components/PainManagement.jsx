@@ -1,79 +1,52 @@
 import { Grid, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import { useState } from "react"
-const PainManagement = () => {
-
-  // Colors setup to change them dynamically.
-  const [color, setColor] = useState('#FEEAA6')
-  const [actionColor, setActionColor] = useState('#E1A91C')
+const PainManagement = ({ selectedDrug, color, actionColor}) => {
   
   return (
     <Grid container alignItems="center" textAlign="center" style={{ border: "solid 2px black" }}>
       {/* DRUG NAME */}
       <Grid item sm={2} style={{ backgroundColor: color }}>
-        Drug name
+        { selectedDrug.generic }<br/>
+        ({ selectedDrug.trade })
       </Grid>
 
-      {/* GENE & GENOTYPE */}
-      <Grid item sm={3}>
+      {/* GENE, GENOTYPE & PHENOTYPES IMPACT */}
+      <Grid item sm={6}>
         <Table>
           <colgroup>
-            <col width="50%"></col>
-            <col width="50%"></col>
+            <col width="33.333333333%"></col>
+            <col width="33.333333333%"></col>
+            <col width="33.333333333%"></col>
           </colgroup>
           <TableHead>
             <TableRow>
               <TableCell align="center">Gene</TableCell>
               <TableCell align="center">Genotype</TableCell>
+              <TableCell align="center" style={{ backgroundColor: color }}>Phenotypes/Patient Impact</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell align="center">
-                Fake Gene 1
-              </TableCell>
-              <TableCell align="center">
-                WT/WT
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="center">
-                Fake Gene 2
-              </TableCell>
-              <TableCell align="center">
-                WT2/WT2
-              </TableCell>
-            </TableRow>
+            {
+              selectedDrug.GeneInfo.map( (gi) => (
+                <TableRow>
+                  <TableCell align="center">
+                    { gi.Gene }
+                  </TableCell>
+                  <TableCell align="center">
+                    { gi.Genotype }
+                  </TableCell>
+                  <TableCell align="center" style={{ backgroundColor: color }}>
+                    { gi.Phenotype }
+                  </TableCell>
+                </TableRow>
+              ))
+            }
             <TableRow>
               <TableCell align="center" colSpan={2} style={{ backgroundColor: actionColor, color: '#FFFF' }}>
-                <strong>CAUTION</strong>
+                <strong>{ selectedDrug.Action }</strong>
               </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </Grid>
-
-      {/* PHENOTYPES & IMPACT */}
-      <Grid item sm={3}>
-        <Table style={{ backgroundColor: color }}>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Phenotypes/Patient Impact</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell align="center">
-                Normal Metabolizer
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="center">
-                Porr Metabolizer
-              </TableCell>
-            </TableRow>
-            <TableRow>
               <TableCell align="center" style={{ backgroundColor: actionColor, color: '#FFFF' }}>
-                <strong>Decreased Efficacy</strong>
+                <strong>{ selectedDrug.GroupPhenotype }</strong>
               </TableCell>
             </TableRow>
           </TableBody>
@@ -82,7 +55,7 @@ const PainManagement = () => {
 
       {/* TREATMENT */}
       <Grid item sm={4}>
-        Patients with this genotype are expected to have a Poor response to Tylenol. Physicians should follow FDA label recommendations.
+        { selectedDrug.Recommendation }
       </Grid>
     </Grid>
   );

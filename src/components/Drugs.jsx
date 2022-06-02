@@ -1,5 +1,5 @@
 import { Button, Stack} from '@mui/material'
-const Drugs = () => {
+const Drugs = ({ drugs, handler }) => {
   return (
     <Stack
       container
@@ -7,11 +7,11 @@ const Drugs = () => {
       justifyContent="space-evenly"
       alignItems="stretch"
     >
-      <Button variant="contained">Hello World</Button>
-      <Button variant="contained">Hello World<br/>Hello World</Button>
-      <Button variant="contained">Hello World</Button>
-      <Button variant="contained">Hello World</Button>
-      <Button variant="contained">Hello World</Button>
+      {
+        drugs.map((d) => (
+          <Button key={ d.id } variant="contained" onClick={ () => handler(d.id) }>{ d.generic }<br/>({ d.trade })</Button>
+        ))
+      }
     </Stack>
   );
 }
